@@ -116,9 +116,9 @@ callback = function (p, l)
     return false
 end
 
-res = Optimization.solve(prob, OptimizationOptimisers.Adam(0.01); maxiters = 500, callback)
+res = Optimization.solve(prob, OptimizationOptimisers.Adam(0.01); maxiters = 1000, callback)
 prob = remake(prob, u0 = res.u)
-res = Optimization.solve(prob, LBFGS(linesearch = BackTracking()); maxiters = 100, callback)
+res = Optimization.solve(prob, LBFGS(linesearch = BackTracking()); maxiters = 200, callback)
 
 phi = discretization.phi
 ```
