@@ -110,8 +110,8 @@ function SciMLBase.__solve(
     Dxx = Differential(X)^2
     Dt = Differential(T)
 
-    J(x, T) = prob.f(x, p, T) * p̂(x, T) -
-              P(0.5) * Dx((prob.g(x, p, T))^2 * p̂(x, T))
+    J(X, T) = prob.f(X, p, T) * p̂(X, T) -
+              P(0.5) * Dx((prob.g(X, p, T))^2 * p̂(X, T))
 
     # IC symbolic equation form
     f_icloss = if u0 isa Number
