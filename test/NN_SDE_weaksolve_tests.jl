@@ -56,6 +56,7 @@
     diff = u_real .- u_predict
     @test mean(vcat([abs2.(diff_i) for diff_i in diff]...)) < 0.01
 
+    # Compare with analytic OU solution Plotting
     # using Plots
     # plotly()
     # plots_got = []
@@ -107,7 +108,7 @@ end
     sol_GBM, phi = solve(
         prob,
         alg,
-        maxiters=300,
+        maxiters=400
     )
 
     analytic_sol_func(x, t) = pdf(LogNormal(log(u0) + (μ - 0.5 * σ^2) * t, sqrt(t) * σ), x)
@@ -123,7 +124,7 @@ end
     diff = u_real .- u_predict
     @test mean(vcat([abs2.(diff_i) for diff_i in diff]...)) < 0.01
 
-    # Compare with analytic GBM solution
+    # Compare with analytic GBM solution Plotting
     # using Plots
     # plotly()
     # plots_got = []
