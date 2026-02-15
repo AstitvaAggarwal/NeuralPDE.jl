@@ -38,7 +38,7 @@
     sol_OU, phi = solve(
         prob,
         alg,
-        maxiters=600
+        maxiters=300
     )
 
     # OU analytic solution
@@ -88,7 +88,6 @@ end
         )) |> f64
 
     # problem setting - (results depend on x's assumed range)
-
     dx = 0.01
     x_0 = 0.0
     x_end = 3.0
@@ -108,7 +107,7 @@ end
     sol_GBM, phi = solve(
         prob,
         alg,
-        maxiters=600
+        maxiters=300,
     )
 
     analytic_sol_func(x, t) = pdf(LogNormal(log(u0) + (μ - 0.5 * σ^2) * t, sqrt(t) * σ), x)
