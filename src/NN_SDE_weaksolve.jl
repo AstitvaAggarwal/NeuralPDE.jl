@@ -23,11 +23,6 @@
     batch::Bool
     param_estim::Bool
 
-    # For postprocessing - solution handling
-    # xview::AbstractArray
-    # tview::AbstractArray
-    # phi::Phi
-
     dataset <: Union{Nothing,Vector,Vector{<:Vector}}
     additional_loss <: Union{Nothing,Function}
     kwargs
@@ -110,8 +105,12 @@ function SciMLBase.__solve(
     Dxx = Differential(X)^2
     Dt = Differential(T)
 
+    # use product rule to avoid Dx(0) in symbolic equations for BC.
     J(X, T) = prob.f(X, p, T) * p̂(X, T) -
-              P(0.5) * Dx((prob.g(X, p, T))^2 * p̂(X, T))
+              P(0.5) * (
+        ((prob.g(X, p, T))^2 * Dx(p̂(X, T))) +
+        (p̂(X, T) * Dx((prob.g(X, p, T))^2))
+    )
 
     # IC symbolic equation form
     f_icloss = if u0 isa Number
@@ -157,7 +156,7 @@ function SciMLBase.__solve(
     domains = [X ∈ (x_0, x_end), T ∈ (t₀, t₁)]
 
     # Additional losses
-    # Handle normloss and ICloss for vector NN outputs !! -> will need to adjst x0, x_end, u0 handling for this also !!
+    # TODO Handle normloss and ICloss for vector NN outputs !! -> will need to adjst x0, x_end, u0 handling for this
 
     σ_var_bc = 0.05 # must be narrow, dirac deltra function centering. (smaller this is, we drop NN from a taller point to learn)
     function norm_loss(phi, θ)
@@ -210,6 +209,6 @@ function SciMLBase.__solve(
         kwargs...
     )
 
-    # postprocessing?
+    # TODO postprocessing for custom solution struct
     return res, phi
 end

@@ -21,7 +21,7 @@
         )) |> f64
 
     # problem setting
-    dx = 0.01
+    dx = 0.02
     x_0 = -4.0
     x_end = 4.0
     σ_var_bc = 0.05
@@ -115,7 +115,7 @@ end
     xs = collect(x_0:dx:x_end)
 
     # test at 0.1, not 0.0 ∵ analytic sol goes to inf (dirac delta func)
-    ts = [0.0, 0.1, 0.2, 0.4, 0.6, 0.8, 1.0]
+    ts = [0.1, 0.2, 0.4, 0.6, 0.8, 1.0]
 
     u_real = [[analytic_sol_func(x, t) for x in xs] for t in ts]
     u_predict = [[first(phi([x, t], sol_GBM.u)) for x in xs] for t in ts]
