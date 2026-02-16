@@ -52,7 +52,7 @@
     u_real = [[analytic_sol_func(x, t) for x in xs] for t in ts]
     u_predict = [[first(phi([x, t], sol_OU.u)) for x in xs] for t in ts]  # NeuralPDE predictions
 
-    # MSE across all x.
+    # MSE across all x
     diff = u_real .- u_predict
     @test mean(vcat([abs2.(diff_i) for diff_i in diff]...)) < 0.01
 
@@ -120,7 +120,7 @@ end
     u_real = [[analytic_sol_func(x, t) for x in xs] for t in ts]
     u_predict = [[first(phi([x, t], sol_GBM.u)) for x in xs] for t in ts]
 
-    # MSE across all x.
+    # MSE across all x
     diff = u_real .- u_predict
     @test mean(vcat([abs2.(diff_i) for diff_i in diff]...)) < 0.01
 
